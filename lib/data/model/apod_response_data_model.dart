@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:today_sky/features/sky/data/enum/media_type_enum.dart';
+import 'package:today_sky/data/enum/media_type_enum.dart';
 
 class ApodResponseDataModel {
   final String serviceVersion;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:today_sky/features/sky/logic/sky_cubit.dart';
-import 'package:today_sky/features/sky/ui/widgets/error_sky_widget.dart';
-import 'package:today_sky/features/sky/ui/widgets/loaded_sky_widget.dart';
-import 'package:today_sky/features/sky/ui/widgets/loading_sky_widget.dart';
+import 'package:today_sky/logic/sky_cubit.dart';
+import 'package:today_sky/ui/home_sky/widgets/loaded_home_sky.dart';
+import 'package:today_sky/ui/widgets/error_sky_widget.dart';
+import 'package:today_sky/ui/widgets/loading_sky_widget.dart';
 
 class SkyPage extends StatelessWidget {
   const SkyPage({super.key});
@@ -13,7 +13,7 @@ class SkyPage extends StatelessWidget {
     return BlocBuilder<SkyCubit, SkyState>(
       builder: (context, state) {
         if (state is SkyErrorState) return ErrorSkyWidget();
-        if (state is SkyLoadedState) return LoadedSkyWidget();
+        if (state is SkyLoadedState) return LoadedHomeSky(apod: state.apod);
 
         return LoadingSkyWidget();
       },

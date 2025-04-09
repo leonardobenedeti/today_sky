@@ -1,6 +1,6 @@
 import 'package:today_sky/core/http/custom_http_client.dart';
-import 'package:today_sky/features/sky/data/model/apod_request_data_model.dart';
-import 'package:today_sky/features/sky/data/model/apod_response_data_model.dart';
+import 'package:today_sky/data/model/apod_request_data_model.dart';
+import 'package:today_sky/data/model/apod_response_data_model.dart';
 
 class ApodRepository {
   final CustomHttpClient _httpClient;

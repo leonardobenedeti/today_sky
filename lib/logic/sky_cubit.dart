@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:today_sky/features/sky/data/model/apod_request_data_model.dart';
-import 'package:today_sky/features/sky/data/model/apod_response_data_model.dart';
-import 'package:today_sky/features/sky/data/repository/apod_repository.dart';
+import 'package:today_sky/data/model/apod_request_data_model.dart';
+import 'package:today_sky/data/model/apod_response_data_model.dart';
+import 'package:today_sky/data/repository/apod_repository.dart';
 
 part 'sky_state.dart';
 
