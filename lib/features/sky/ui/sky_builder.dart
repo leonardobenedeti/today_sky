@@ -9,7 +9,7 @@ class SkyBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SkyCubit(),
+      create: (context) => SkyCubit()..fetchSky(),
       child: Scaffold(body: SkyPage()),
     );
   }

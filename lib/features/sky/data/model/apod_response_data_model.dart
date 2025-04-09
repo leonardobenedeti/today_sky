@@ -45,7 +45,7 @@ class ApodResponseDataModel {
     return ApodResponseDataModel(
       serviceVersion: map['service_version'] as String,
       mediaType: MediaType.typeFromJson(map['media_type']),
-      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      date: DateTime.parse(map['date']),
       title: map['title'] as String,
       explanation: map['explanation'] as String,
       url: map['url'] as String,
