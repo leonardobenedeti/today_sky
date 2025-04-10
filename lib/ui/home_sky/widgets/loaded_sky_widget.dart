@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:today_sky/data/model/apod_request_data_model.dart';
 import 'package:today_sky/data/model/apod_response_data_model.dart';
-import 'package:today_sky/logic/sky_cubit.dart';
+import 'package:today_sky/logic/favorites/favorites_cubit.dart';
+import 'package:today_sky/logic/sky/sky_cubit.dart';
+import 'package:today_sky/ui/favorites/widgets/favorite_button.dart';
 import 'package:today_sky/ui/home_sky/widgets/empty_sky_widget.dart';
 
 class LoadedHomeSky extends StatefulWidget {
@@ -28,6 +30,7 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
   late DateTime selectedDate;
 
   late SkyCubit skyCubit;
+  late FavoritesCubit favoritesCubit;
 
   @override
   void initState() {
@@ -35,7 +38,9 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
 
     selectedDate = widget.apod.date;
     parseURLPicture();
+
     skyCubit = BlocProvider.of<SkyCubit>(context);
+
     _sheetController.addListener(() {
       final extent = _sheetController.size;
       final newState = extent > _expandThreshold;
@@ -85,6 +90,7 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
   @override
   Widget build(BuildContext context) {
     final formattedDateLabel = DateFormat('dd/MM/yyyy').format(selectedDate);
+
     return Stack(
       children: [
         InteractiveViewer(
@@ -199,12 +205,7 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
                               ?.copyWith(color: Colors.black),
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.favorite,
-                            color: Colors.black,
-                          ))
+                      FavoriteButton(apod: widget.apod),
                     ],
                   ),
                   const SizedBox(height: 12),

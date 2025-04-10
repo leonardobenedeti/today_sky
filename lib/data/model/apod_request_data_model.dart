@@ -59,19 +59,4 @@ class ApodRequestDataModel {
   String toString() {
     return 'ApodRequestDataModel(date: $date, endDate: $endDate, count: $count, thumbs: $thumbs)';
   }
-
-  @override
-  bool operator ==(covariant ApodRequestDataModel other) {
-    if (identical(this, other)) return true;
-
-    return other.date == date &&
-        other.endDate == endDate &&
-        other.count == count &&
-        other.thumbs == thumbs;
-  }
-
-  @override
-  int get hashCode {
-    return date.hashCode ^ endDate.hashCode ^ count.hashCode ^ thumbs.hashCode;
-  }
 }

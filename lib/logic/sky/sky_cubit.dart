@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:today_sky/core/dependency_injector.dart';
 import 'package:today_sky/data/model/apod_request_data_model.dart';
 import 'package:today_sky/data/model/apod_response_data_model.dart';
 import 'package:today_sky/data/repository/apod_repository.dart';
@@ -9,7 +10,7 @@ class SkyCubit extends Cubit<SkyState> {
   ApodRepository apodRepository;
 
   SkyCubit([ApodRepository? repository])
-      : apodRepository = repository ?? ApodRepository(),
+      : apodRepository = repository ?? DependencyInjector.get<ApodRepository>(),
         super(SkyErrorState());
 
   Future<void> fetchSky({ApodRequestDataModel? requestParams}) async {

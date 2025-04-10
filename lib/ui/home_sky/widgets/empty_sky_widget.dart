@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:today_sky/logic/sky_cubit.dart';
+import 'package:today_sky/logic/sky/sky_cubit.dart';
 
 class EmptySkyWidget extends StatelessWidget {
   const EmptySkyWidget({this.withError = false, super.key});
