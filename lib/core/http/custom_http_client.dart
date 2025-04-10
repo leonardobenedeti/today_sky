@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,6 +22,8 @@ class CustomHttpClient extends http.BaseClient {
     final newRequest = http.Request(request.method, url)
       ..headers.addAll(request.headers)
       ..bodyBytes = (request is http.Request) ? request.bodyBytes : [];
+
+    log(newRequest.toString());
 
     return _httpClient.send(newRequest);
   }

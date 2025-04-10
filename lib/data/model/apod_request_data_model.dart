@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 // date	YYYY-MM-DD	today	The date of the APOD image to retrieve
 // start_date	YYYY-MM-DD	none	The start of a date range, when requesting date for a range of dates. Cannot be used with date.
 // end_date	YYYY-MM-DD	today	The end of the date range, when used with start_date.
@@ -10,17 +12,15 @@ import 'dart:convert';
 
 class ApodRequestDataModel {
   final DateTime date;
-  final DateTime endDate;
-  final int count;
-  final bool thumbs;
-  final String apiKey;
+  final DateTime? endDate;
+  final int? count;
+  final bool? thumbs;
 
   ApodRequestDataModel({
     required this.date,
-    required this.endDate,
-    required this.count,
-    required this.thumbs,
-    required this.apiKey,
+    this.endDate,
+    this.count,
+    this.thumbs,
   });
 
   ApodRequestDataModel copyWith({
@@ -35,25 +35,29 @@ class ApodRequestDataModel {
       endDate: endDate ?? this.endDate,
       count: count ?? this.count,
       thumbs: thumbs ?? this.thumbs,
-      apiKey: apiKey ?? this.apiKey,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'date': date.millisecondsSinceEpoch,
-      'endDate': endDate.millisecondsSinceEpoch,
-      'count': count,
-      'thumbs': thumbs,
-      'apiKey': apiKey,
+      'date': formattedDateTime(date),
+      if (endDate != null) 'endDate': formattedDateTime(endDate!),
+      if (count != null) 'count': count,
+      if (thumbs != null) 'thumbs': thumbs,
     };
   }
+
+  factory ApodRequestDataModel.defaultRequest() =>
+      ApodRequestDataModel(date: DateTime.now());
+
+  String formattedDateTime(DateTime date) =>
+      DateFormat('yyyy-MM-dd').format(date);
 
   String toJson() => json.encode(toMap());
 
   @override
   String toString() {
-    return 'ApodRequestDataModel(date: $date, endDate: $endDate, count: $count, thumbs: $thumbs, apiKey: $apiKey)';
+    return 'ApodRequestDataModel(date: $date, endDate: $endDate, count: $count, thumbs: $thumbs)';
   }
 
   @override
@@ -63,16 +67,11 @@ class ApodRequestDataModel {
     return other.date == date &&
         other.endDate == endDate &&
         other.count == count &&
-        other.thumbs == thumbs &&
-        other.apiKey == apiKey;
+        other.thumbs == thumbs;
   }
 
   @override
   int get hashCode {
-    return date.hashCode ^
-        endDate.hashCode ^
-        count.hashCode ^
-        thumbs.hashCode ^
-        apiKey.hashCode;
+    return date.hashCode ^ endDate.hashCode ^ count.hashCode ^ thumbs.hashCode;
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:today_sky/logic/sky_cubit.dart';
+import 'package:today_sky/ui/home_sky/widgets/empty_sky_widget.dart';
 import 'package:today_sky/ui/home_sky/widgets/loaded_sky_widget.dart';
-import 'package:today_sky/ui/home_sky/widgets/loading_sky_widget.dart';
 
 class SkyPage extends StatelessWidget {
   const SkyPage({super.key});

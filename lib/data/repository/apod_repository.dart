@@ -11,8 +11,9 @@ class ApodRepository {
 
   Future<ApodResponseDataModel> fetchApod(
       {ApodRequestDataModel? requestParams}) async {
+    final request = requestParams ?? ApodRequestDataModel.defaultRequest();
     final response = await _httpClient
-        .get(baseURL.replace(queryParameters: requestParams?.toMap()));
+        .get(baseURL.replace(queryParameters: request.toMap()));
 
     return ApodResponseDataModel.fromJson(response.body);
   }
