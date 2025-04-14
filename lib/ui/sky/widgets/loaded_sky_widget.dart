@@ -8,6 +8,7 @@ import 'package:today_sky/logic/favorites/favorites_cubit.dart';
 import 'package:today_sky/logic/sky/sky_cubit.dart';
 import 'package:today_sky/ui/favorites/widgets/favorite_button.dart';
 import 'package:today_sky/ui/sky/widgets/empty_sky_widget.dart';
+import 'package:today_sky/ui/sky/widgets/video_widget.dart';
 
 class LoadedHomeSky extends StatefulWidget {
   final ApodResponseDataModel apod;
@@ -25,7 +26,7 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
   static const double _expandThreshold = 0.3;
 
   bool _isHDSelected = false;
-  String urlPicture = '';
+  String urlMedia = '';
 
   late DateTime selectedDate;
 
@@ -61,7 +62,7 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
 
   void parseURLPicture() {
     setState(() {
-      urlPicture = _isHDSelected ? widget.apod.hdUrl : widget.apod.url;
+      urlMedia = _isHDSelected ? widget.apod.hdUrl : widget.apod.url;
     });
   }
 
@@ -93,23 +94,29 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
 
     return Stack(
       children: [
-        InteractiveViewer(
-          constrained: false,
-          minScale: 1,
-          maxScale: 10,
-          child: CachedNetworkImage(
-            imageUrl: urlPicture,
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.contain,
-            fadeInDuration: Duration(milliseconds: 500),
-            fadeOutDuration: Duration(milliseconds: 300),
-            placeholderFadeInDuration: Duration(milliseconds: 300),
-            placeholder: (context, url) => EmptySkyWidget(),
-            errorWidget: (context, url, error) => EmptySkyWidget(
-              withError: false,
+        if (widget.apod.mediaType.isVideo) ...[
+          VideoWidget(
+            mediaURL: urlMedia,
+          ),
+        ] else ...[
+          InteractiveViewer(
+            constrained: false,
+            minScale: 1,
+            maxScale: 10,
+            child: CachedNetworkImage(
+              imageUrl: urlMedia,
+              height: MediaQuery.of(context).size.height,
+              fit: BoxFit.contain,
+              fadeInDuration: Duration(milliseconds: 500),
+              fadeOutDuration: Duration(milliseconds: 300),
+              placeholderFadeInDuration: Duration(milliseconds: 300),
+              placeholder: (context, url) => EmptySkyWidget(),
+              errorWidget: (context, url, error) => EmptySkyWidget(
+                withError: false,
+              ),
             ),
           ),
-        ),
+        ],
         Positioned(
           left: 0,
           right: 0,
