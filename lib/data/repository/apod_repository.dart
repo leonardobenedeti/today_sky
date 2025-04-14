@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:today_sky/core/dependency_injector.dart';
@@ -20,6 +21,7 @@ class ApodRepository {
   Future<ApodResponseDataModel> fetchApod(
       {ApodRequestDataModel? requestParams}) async {
     final request = requestParams ?? ApodRequestDataModel.defaultRequest();
+
     final response = await _httpClient
         .get(_baseURL.replace(queryParameters: request.toMap()));
 
@@ -29,25 +31,27 @@ class ApodRepository {
   List<ApodResponseDataModel> fetchFavorites() {
     final result = _sharedPreferences.getString(_favoritesKey);
     if (result == null) return [];
+    log(result);
 
-    final List<dynamic> apodList = json.decode(result);
-    return apodList
+    final List decodedJson = json.decode(result);
+    final apodList = decodedJson
         .map((json) => ApodResponseDataModel.fromJson(json))
         .toList();
+    return apodList;
   }
 
-  bool checkFavorite(ApodResponseDataModel apod) {
+  List<ApodResponseDataModel> checkFavorite(DateTime date) {
     final currentList = fetchFavorites();
 
-    return currentList.any((favorite) => favorite.id == apod.id);
+    return currentList.where((favorite) => favorite.date == date).toList();
   }
 
   List<ApodResponseDataModel> selectFavorite(ApodResponseDataModel apod) {
     final currentList = fetchFavorites();
 
-    if (checkFavorite(apod)) {
+    if (checkFavorite(apod.date).isNotEmpty) {
       final updatedList =
-          currentList.where((favorite) => favorite.id != apod.id).toList();
+          currentList.where((favorite) => favorite.date != apod.date).toList();
       final jsonString = json
           .encode(updatedList.map((favorite) => favorite.toJson()).toList());
       _sharedPreferences.setString(_favoritesKey, jsonString);

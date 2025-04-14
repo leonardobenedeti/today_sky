@@ -1,11 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:intl/intl.dart';
+import 'package:today_sky/core/extensions/datetime_extension.dart';
 import 'package:today_sky/data/enum/media_type_enum.dart';
 
 class ApodResponseDataModel {
-  final String? id;
   final String serviceVersion;
   final MediaType mediaType;
   final DateTime date;
@@ -15,7 +13,6 @@ class ApodResponseDataModel {
   final String hdUrl;
 
   ApodResponseDataModel({
-    this.id,
     required this.serviceVersion,
     required this.mediaType,
     required this.date,
@@ -35,7 +32,6 @@ class ApodResponseDataModel {
     String? hdUrl,
   }) {
     return ApodResponseDataModel(
-      id: id ?? id,
       serviceVersion: serviceVersion ?? this.serviceVersion,
       mediaType: mediaType ?? this.mediaType,
       date: date ?? this.date,
@@ -48,7 +44,6 @@ class ApodResponseDataModel {
 
   factory ApodResponseDataModel.fromMap(Map<String, dynamic> map) {
     return ApodResponseDataModel(
-      id: map['id'] ?? '',
       serviceVersion: map['service_version'] ?? '',
       mediaType: MediaType.typeFromJson(map['media_type']),
       date: DateTime.parse(map['date']),
@@ -59,16 +54,11 @@ class ApodResponseDataModel {
     );
   }
 
-  // TODO(leo): Create an datetime utils and move this and from request model
-  String formattedDateTime(DateTime date) =>
-      DateFormat('yyyy-MM-dd').format(date);
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id ?? DateTime.now().hashCode,
       'service_version': serviceVersion,
       'media_type': mediaType.name,
-      'date': formattedDateTime(date),
+      'date': date.toFormattedDateTimeString,
       'title': title,
       'explanation': explanation,
       'url': url,
@@ -84,6 +74,6 @@ class ApodResponseDataModel {
 
   @override
   String toString() {
-    return 'ApodResponseDataModel(id: $id, serviceVersion: $serviceVersion, mediaType: $mediaType, date: $date, title: $title, explanation: $explanation, url: $url, hdUrl: $hdUrl)';
+    return 'ApodResponseDataModel(serviceVersion: $serviceVersion, mediaType: $mediaType, date: $date, title: $title, explanation: $explanation, url: $url, hdUrl: $hdUrl)';
   }
 }

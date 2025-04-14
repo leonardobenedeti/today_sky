@@ -27,8 +27,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     emit(FavoritesLoadingState());
 
     try {
-      final isFavorite = apodRepository.checkFavorite(apod);
-      emit(FavoriteCheckedState(isFavorite));
+      final favorites = apodRepository.checkFavorite(apod.date);
+      emit(FavoritesLoadedState(favorites));
     } catch (e) {
       emit(FavoritesErrorState());
     }
@@ -39,8 +39,19 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
     try {
       apodRepository.selectFavorite(apod);
-      final isFavorite = apodRepository.checkFavorite(apod);
-      emit(FavoriteCheckedState(isFavorite));
+      final favorites = apodRepository.checkFavorite(apod.date);
+      emit(FavoritesLoadedState(favorites));
+    } catch (e) {
+      emit(FavoritesErrorState());
+    }
+  }
+
+  Future<void> removeFavorite(ApodResponseDataModel apod) async {
+    emit(FavoritesLoadingState());
+
+    try {
+      final currentList = apodRepository.selectFavorite(apod);
+      emit(FavoritesLoadedState(currentList));
     } catch (e) {
       emit(FavoritesErrorState());
     }

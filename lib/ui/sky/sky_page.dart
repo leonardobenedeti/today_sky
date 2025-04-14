@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:today_sky/data/model/apod_request_data_model.dart';
+import 'package:today_sky/data/model/apod_response_data_model.dart';
 import 'package:today_sky/logic/sky/sky_cubit.dart';
-import 'package:today_sky/ui/home_sky/widgets/empty_sky_widget.dart';
-import 'package:today_sky/ui/home_sky/widgets/loaded_sky_widget.dart';
+import 'package:today_sky/ui/sky/widgets/empty_sky_widget.dart';
+import 'package:today_sky/ui/sky/widgets/loaded_sky_widget.dart';
 
-class SkyPage extends StatelessWidget {
+class SkyPage extends StatefulWidget {
   const SkyPage({super.key});
+
+  @override
+  State<SkyPage> createState() => _SkyPageState();
+}
+
+class _SkyPageState extends State<SkyPage> {
+  late SkyCubit skyCubit;
+
+  @override
+  void initState() {
+    skyCubit = context.read<SkyCubit>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +60,16 @@ class SkyPage extends StatelessWidget {
                     ),
                     ElevatedButton.icon(
                       onPressed: () =>
-                          Navigator.pushNamed(context, '/favorites'),
-                      label: Text('Favoritos'),
+                          Navigator.pushNamed(context, '/favorites').then(
+                        (value) {
+                          if (value is ApodResponseDataModel) {
+                            skyCubit.fetchSky(
+                                requestParams:
+                                    ApodRequestDataModel(date: value.date));
+                          }
+                        },
+                      ),
+                      label: Text('Favorites'),
                       icon: Icon(
                         Icons.favorite,
                       ),

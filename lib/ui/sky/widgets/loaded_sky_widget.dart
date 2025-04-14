@@ -7,7 +7,7 @@ import 'package:today_sky/data/model/apod_response_data_model.dart';
 import 'package:today_sky/logic/favorites/favorites_cubit.dart';
 import 'package:today_sky/logic/sky/sky_cubit.dart';
 import 'package:today_sky/ui/favorites/widgets/favorite_button.dart';
-import 'package:today_sky/ui/home_sky/widgets/empty_sky_widget.dart';
+import 'package:today_sky/ui/sky/widgets/empty_sky_widget.dart';
 
 class LoadedHomeSky extends StatefulWidget {
   final ApodResponseDataModel apod;
@@ -118,25 +118,27 @@ class _LoadedHomeSkyState extends State<LoadedHomeSky>
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton.icon(
-                onPressed: selectHDPicture,
-                icon: Icon(
-                  _isHDSelected ? Icons.hd : Icons.hd_outlined,
-                  color: _isHDSelected ? Colors.black : Colors.white,
-                ),
-                label: Text('Better Quality'),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: _isHDSelected ? Colors.black : Colors.white,
-                  backgroundColor:
-                      Colors.white.withValues(alpha: _isHDSelected ? .7 : .2),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: BorderSide(
-                      color: Colors.white,
+              if (widget.apod.hdUrl.isNotEmpty)
+                ElevatedButton.icon(
+                  onPressed: selectHDPicture,
+                  icon: Icon(
+                    _isHDSelected ? Icons.hd : Icons.hd_outlined,
+                    color: _isHDSelected ? Colors.black : Colors.white,
+                  ),
+                  label: Text('Better Quality'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor:
+                        _isHDSelected ? Colors.black : Colors.white,
+                    backgroundColor:
+                        Colors.white.withValues(alpha: _isHDSelected ? .7 : .2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      side: BorderSide(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
               ElevatedButton.icon(
                 onPressed: () => _selectDate(),
                 icon: Icon(

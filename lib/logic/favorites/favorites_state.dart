@@ -10,10 +10,4 @@ final class FavoritesLoadedState extends FavoritesState {
   FavoritesLoadedState(this.apodList);
 }
 
-final class FavoriteCheckedState extends FavoritesState {
-  bool isFavorite;
-
-  FavoriteCheckedState(this.isFavorite);
-}
-
 final class FavoritesErrorState extends FavoritesState {}

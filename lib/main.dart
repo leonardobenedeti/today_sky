@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:today_sky/core/dependency_injector.dart';
+import 'package:today_sky/logic/favorites/favorites_cubit.dart';
 import 'package:today_sky/ui/favorites/favorites_builder.dart';
-import 'package:today_sky/ui/home_sky/sky_builder.dart';
+import 'package:today_sky/ui/sky/sky_builder.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,16 +18,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Today Sky',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return BlocProvider(
+      create: (context) => FavoritesCubit(),
+      child: MaterialApp(
+        title: 'Today Sky',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        routes: {
+          '/': (context) => SkyBuilder(),
+          '/favorites': (context) => FavoritesBuilder(),
+        },
       ),
-      routes: {
-        '/': (context) => SkyBuilder(),
-        '/favorites': (context) => FavoritesBuilder(),
-      },
     );
   }
 }

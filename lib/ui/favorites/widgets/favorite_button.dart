@@ -25,12 +25,14 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       builder: (context, state) {
         if (state is FavoritesLoadingState) return CircularProgressIndicator();
 
-        if (state is FavoriteCheckedState) {
+        if (state is FavoritesLoadedState) {
+          final isFavorite =
+              state.apodList.any((apod) => apod.date == widget.apod.date);
           return IconButton(
             onPressed: () =>
                 context.read<FavoritesCubit>().selectFavorite(widget.apod),
             icon: Icon(
-              state.isFavorite ? Icons.favorite : Icons.favorite_border,
+              isFavorite ? Icons.favorite : Icons.favorite_border,
               color: Colors.black,
             ),
           );
